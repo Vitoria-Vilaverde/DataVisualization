@@ -1,0 +1,48 @@
+# Carregando dados
+
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import seaborn as sns
+import os
+for dirname, _, filenames in os.walk('/kaggle/input'):
+    for filename in filenames:
+        print(os.path.join(dirname, filename))
+        
+df = pd.read_csv('/kaggle/input/stores-area-and-sales-data/Stores.csv')
+df
+
+#Visualização de dados
+
+#Existem 4 recursos diferentes, portanto, existem 6 gráficos diferentes para ver.
+#A área da loja está correlacionada com o número de itens disponíveis?
+
+sns.jointplot(x='Store_Area', y='Items_Available', data=df, kind="reg", truncate=False, color="m", height=7);
+
+#Como poderíamos esperar, quanto maior a loja, mais itens há nela.
+#A área da loja está ligada ao número de clientes diários?
+#Podemos pensar que grandes lojas atraem mais clientes do que outras, vamos conferir!
+
+sns.jointplot(x='Store_Area', y='Daily_Customer_Count', data=df, kind="reg", truncate=False, color="m", height=7);
+
+#A área da loja não parece ter impacto no número de clientes diários.
+#Você gasta mais em uma grande loja?
+
+sns.jointplot(x='Store_Area', y='Store_Sales', data=df, kind="reg", truncate=False, color="m", height=7);
+
+# A resposta é contraintuitiva, pois muitas vezes pensamos que fazemos mais compras grandes em grandes lojas, mas parece que não é o caso.
+# Quanto mais itens disponíveis, mais clientes diários?
+# Geralmente há mais pessoas em grandes lojas com muitos 
+
+sns.jointplot(x='Items_Available', y='Daily_Customer_Count', data=df, kind="reg", truncate=False, color="m", height=7);
+
+# Finalmente não é verdade!
+# Mais itens disponíveis, faturas maiores?
+# A pergunta é legítima, a resposta é intuitiva?
+
+sns.jointplot(x='Items_Available', y='Store_Sales', data=df, kind="reg", truncate=False, color="m", height=7);
+
+# Não há impacto visível.
+# O número de clientes diários tem impacto nas vendas da loja?
+
+sns.jointplot(x='Daily_Customer_Count', y='Store_Sales', data=df, kind="reg", truncate=False, color="m", height=7);
+
+#Não há nenhum impacto nisso.
